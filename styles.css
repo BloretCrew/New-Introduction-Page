@@ -1,0 +1,264 @@
+:root {
+    --ink-100: #fefdf8;
+    --overlay-a: rgba(18, 17, 12, 0.62);
+    --overlay-b: rgba(57, 45, 20, 0.38);
+    --lyric-inactive-opacity: 0.35;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+    font-family: "Manrope", sans-serif;
+    color: var(--ink-100);
+}
+
+body {
+    position: relative;
+    overflow-x: hidden;
+    background: #1a1914;
+}
+
+.bg-video {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -3;
+    filter: saturate(1.1) contrast(1.08);
+}
+
+.video-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+        radial-gradient(circle at 20% 45%, rgba(240, 111, 59, 0.24), transparent 45%),
+        linear-gradient(120deg, var(--overlay-a), var(--overlay-b));
+}
+
+.navbar {
+    top: 0;
+    left: 50%;
+    right: auto;
+    width: min(1200px, 100%);
+    margin-top: 0;
+    transform: translateX(-50%) translateZ(0);
+}
+
+.navbar-content {
+    max-width: none;
+}
+
+.brand-pill {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #ffd27c, #f06f3b 70%);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5) inset;
+}
+
+.hero {
+    min-height: 100vh;
+    padding: 88px 20px 0;
+    display: block;
+}
+
+.hero-copy {
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: left;
+    animation: rise-in 0.9s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.lyric-player {
+    margin: 0;
+}
+
+.lyric-stage {
+    position: relative;
+    height: calc(100vh - 88px);
+    margin-left: -4vw; /* 实现设计稿中的左侧裁剪效果 */
+    overflow: visible;
+}
+
+.lyric-line {
+    --wipe: 0%;
+    --glow-opacity: 0;
+    --line-y: 28vh;
+    position: absolute;
+    top: var(--line-y);
+    left: 0;
+    margin: 0;
+    width: fit-content;
+    white-space: nowrap;
+    /* 更精准的系统字体链 */
+    font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", sans-serif;
+    font-weight: 900; /* 使用最高字重 */
+    font-stretch: 85%; /* 进一步压缩宽度 */
+    font-size: clamp(2.5rem, 10vw, 7rem);
+    letter-spacing: -0.06em; /* 更紧的字间距 */
+    line-height: 0.9;
+    color: rgba(255, 255, 255, var(--lyric-inactive-opacity));
+    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    transform: translateY(-40%) scale(0.95); /* 初始态：略向下且缩小 */
+    filter: blur(20px); /* 初始态：模糊 */
+    transition: 
+        opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1),
+        transform 0.8s cubic-bezier(0.23, 1, 0.32, 1),
+        filter 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    pointer-events: none;
+}
+
+/* 激活态：清晰并上移 */
+.lyric-line.visible {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+    filter: blur(0);
+}
+
+/* 涂色层：优化边缘，通过多重阴影产生自然的“高亮感”而非“扫描条” */
+.lyric-line::before {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: #fff;
+    white-space: nowrap;
+    z-index: 2;
+    /* 增加微弱的外发光阴影，模拟真实屏幕的溢光感 */
+    text-shadow: 
+        0 0 15px rgba(255, 255, 255, 0.4),
+        0 0 30px rgba(255, 255, 255, 0.2);
+    /* 渐变遮罩更窄、更柔和 */
+    -webkit-mask-image: linear-gradient(to right, 
+        rgba(0,0,0,1) 0%, 
+        rgba(0,0,0,1) var(--wipe), 
+        rgba(0,0,0,0) calc(var(--wipe) + 1.5%)
+    );
+    mask-image: linear-gradient(to right, 
+        rgba(0,0,0,1) 0%, 
+        rgba(0,0,0,1) var(--wipe), 
+        rgba(0,0,0,0) calc(var(--wipe) + 1.5%)
+    );
+    transition: -webkit-mask-image 0.05s linear;
+}
+
+/* 彻底删除亮条，Apple Music 原版并没有这个生硬的扫描条 */
+.lyric-line::after {
+    display: none;
+}
+
+.lyric-sub {
+    position: absolute;
+    bottom: 12vh;
+    left: 8vw;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 3.5rem);
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.lyric-line.visible {
+    opacity: 1;
+}
+
+/* 确保主容器不会切断发光条 */
+.hero-copy {
+    overflow: visible;
+}
+
+.reference-video {
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    inset: auto;
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 860px) {
+    .navbar {
+        width: min(1200px, 100%);
+        margin-top: 0;
+    }
+
+    .navbar-content {
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    .navbar-nav {
+        gap: 8px;
+    }
+
+    .nav-link {
+        font-size: 0.82rem;
+        padding: 6px 9px;
+    }
+
+    .hero {
+        padding-top: 84px;
+    }
+
+    .lyric-stage {
+        height: calc(100vh - 84px);
+    }
+
+    .lyric-line {
+        font-size: clamp(1.5rem, 6.7vw, 3.05rem);
+    }
+}
+
+@media (max-width: 560px) {
+    .navbar-content {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navbar-title {
+        order: 1;
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar-nav {
+        order: 2;
+        width: 100%;
+        justify-content: center;
+        margin-left: 0;
+    }
+
+    .hero {
+        padding: 92px 12px 0;
+    }
+
+    .lyric-stage {
+        height: calc(100vh - 92px);
+    }
+
+    .lyric-line {
+        font-size: clamp(1.25rem, 8vw, 2.1rem);
+    }
+}

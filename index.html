@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Introduction</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="Designs/The-Navbar-Design.css" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <video class="bg-video" autoplay muted loop playsinline>
+        <source src="res/back.mp4" type="video/mp4" />
+    </video>
+
+    <video class="reference-video" id="reference-video" muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="20260328-225252.mp4" type="video/mp4" />
+    </video>
+
+    <div class="video-overlay" aria-hidden="true"></div>
+
+    <header class="navbar" aria-label="Main navigation">
+        <div class="navbar-content">
+            <div class="brand-pill" aria-hidden="true"></div>
+            <p class="navbar-title">Bloret Product</p>
+            <nav class="navbar-nav">
+                <a class="nav-link" href="#features">Features</a>
+                <a class="nav-link" href="#pricing">Pricing</a>
+                <a class="nav-link" href="#about">About</a>
+                <a class="nav-link passport" href="#">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="hero">
+        <section class="hero-copy" aria-label="Hero section">
+            <div class="lyric-player" aria-label="Karaoke title animation" id="title-player">
+                <div class="lyric-stage" id="lyric-stage">
+                    <p class="lyric-line lyric-line-main" id="lyric-line-1" aria-live="polite"></p>
+                    <p class="lyric-line lyric-line-main" id="lyric-line-2"></p>
+                    <p class="lyric-sub" id="lyric-sub"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
