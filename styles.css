@@ -13,10 +13,17 @@
 html {
     background: #1a1914;
     /* 这里的底色是真正底层背景，作为视频加载前的兜底 */
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
 }
 
 body {
     margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
     min-height: 100%;
     font-family: "Manrope", sans-serif;
     color: var(--ink-100);
