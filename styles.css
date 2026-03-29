@@ -2,25 +2,26 @@
     --ink-100: #fefdf8;
     --overlay-a: rgba(18, 17, 12, 0.62);
     --overlay-b: rgba(57, 45, 20, 0.38);
-    --lyric-inactive-opacity: 0.35;
+    --lyric-inactive-opacity: 0.15;
+    /* 降低非高亮对比度，突出光辉 */
 }
 
 * {
     box-sizing: border-box;
 }
 
-html,
+html {
+    background: #1a1914;
+    /* 这里的底色是真正底层背景，作为视频加载前的兜底 */
+}
+
 body {
     margin: 0;
     min-height: 100%;
     font-family: "Manrope", sans-serif;
     color: var(--ink-100);
-}
-
-body {
-    position: relative;
-    overflow-x: hidden;
-    background: #1a1914;
+    background: transparent;
+    /* 保持透明以让底层的 fixed 视频可见 */
 }
 
 .bg-video {
@@ -29,236 +30,205 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -3;
+    z-index: -10;
+    /* 设置一个足够小的负值，确保他在所有内容（包括阴影层）之下 */
     filter: saturate(1.1) contrast(1.08);
 }
 
 .video-overlay {
     position: fixed;
     inset: 0;
-    z-index: -2;
+    z-index: -5;
     background:
         radial-gradient(circle at 20% 45%, rgba(240, 111, 59, 0.24), transparent 45%),
         linear-gradient(120deg, var(--overlay-a), var(--overlay-b));
 }
 
-.navbar {
-    top: 0;
-    left: 50%;
-    right: auto;
-    width: min(1200px, 100%);
-    margin-top: 0;
-    transform: translateX(-50%) translateZ(0);
-}
-
-.navbar-content {
-    max-width: none;
-}
-
-.brand-pill {
-    width: 32px;
-    height: 32px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #ffd27c, #f06f3b 70%);
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5) inset;
-}
-
 .hero {
     min-height: 100vh;
     padding: 88px 20px 0;
-    display: block;
 }
 
 .hero-copy {
     width: min(1200px, 100%);
     margin: 0 auto;
-    padding: 0 20px;
-    text-align: left;
-    animation: rise-in 0.9s cubic-bezier(0.23, 1, 0.32, 1) both;
-}
-
-.lyric-player {
-    margin: 0;
+    overflow: visible;
+    /* 允许发光和弹跳超出边界 */
 }
 
 .lyric-stage {
     position: relative;
-    height: calc(100vh - 88px);
-    margin-left: -4vw; /* 实现设计稿中的左侧裁剪效果 */
-    overflow: visible;
+    height: calc(100vh - 120px);
+    margin-left: -2vw;
 }
 
 .lyric-line {
     --wipe: 0%;
-    --glow-opacity: 0;
-    --line-y: 28vh;
+    --line-y: 40vh;
     position: absolute;
     top: var(--line-y);
     left: 0;
     margin: 0;
     width: fit-content;
-    white-space: nowrap;
-    /* 更精准的系统字体链 */
-    font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", sans-serif;
-    font-weight: 900; /* 使用最高字重 */
-    font-stretch: 85%; /* 进一步压缩宽度 */
-    font-size: clamp(2.5rem, 10vw, 7rem);
-    letter-spacing: -0.06em; /* 更紧的字间距 */
-    line-height: 0.9;
+    max-width: 85vw; /* 允许在屏幕 85% 宽度处换行 */
+    white-space: normal; /* 允许换行 */
+    word-break: break-word; /* 确保长单词也能断开 */
+    line-height: 1.1; /* 适当增加行高，防止重叠 */
+    font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 7vw, 5rem);
+    /* 主标题缩小：6.8rem -> 5rem */
+    letter-spacing: -0.05em;
+    line-height: 1;
     color: rgba(255, 255, 255, var(--lyric-inactive-opacity));
-    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+
+    /* 入场与退场效果 */
     opacity: 0;
-    transform: translateY(-40%) scale(0.95); /* 初始态：略向下且缩小 */
-    filter: blur(20px); /* 初始态：模糊 */
-    transition: 
-        opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1),
-        transform 0.8s cubic-bezier(0.23, 1, 0.32, 1),
-        filter 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: translateY(30px) scale(0.96);
+    filter: blur(15px);
+    transition:
+        opacity 0.8s cubic-bezier(0.2, 0, 0.2, 1),
+        filter 0.8s cubic-bezier(0.2, 0, 0.2, 1),
+        transform 0.8s cubic-bezier(0.2, 0, 0.2, 1);
     pointer-events: none;
 }
 
-/* 激活态：清晰并上移 */
 .lyric-line.visible {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+}
+
+/* 场景组：整体入场与退场 */
+.lyric-scene {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+        opacity 0.8s cubic-bezier(0.2, 0, 0.2, 1),
+        transform 0.8s cubic-bezier(0.2, 0, 0.2, 1);
+
+    /* 采用更广、更淡的全局滤镜 */
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.35)) drop-shadow(0 0 35px rgba(255, 255, 255, 0.15));
+}
+
+.lyric-scene::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1; /* 确保它在文字后面 */
+
+    /* 核心背景毛玻璃：整体区域模糊，不再分行 */
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    background: radial-gradient(circle at 10% 45%, rgba(255, 255, 255, 0.08), transparent 80%);
+
+    /* 扩大垂直模糊区域以容纳多行换行后的文本 */
+    -webkit-mask-image: 
+        linear-gradient(to right, transparent, black 8%, black 65%, transparent 95%),
+        linear-gradient(to bottom, transparent 10%, black 25%, black 75%, transparent 90%);
+    mask-image: 
+        linear-gradient(to right, transparent, black 8%, black 65%, transparent 95%),
+        linear-gradient(to bottom, transparent 10%, black 25%, black 75%, transparent 90%);
+    
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+}
+
+.lyric-scene.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 确保场景内的歌词行跟随场景状态显示 */
+.lyric-scene.visible .lyric-line {
     opacity: 1;
     transform: translateY(-50%) scale(1);
     filter: blur(0);
 }
 
-/* 涂色层：优化边缘，通过多重阴影产生自然的“高亮感”而非“扫描条” */
-.lyric-line::before {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0;
-    color: #fff;
-    white-space: nowrap;
-    z-index: 2;
-    /* 增加微弱的外发光阴影，模拟真实屏幕的溢光感 */
-    text-shadow: 
-        0 0 15px rgba(255, 255, 255, 0.4),
-        0 0 30px rgba(255, 255, 255, 0.2);
-    /* 渐变遮罩更窄、更柔和 */
-    -webkit-mask-image: linear-gradient(to right, 
-        rgba(0,0,0,1) 0%, 
-        rgba(0,0,0,1) var(--wipe), 
-        rgba(0,0,0,0) calc(var(--wipe) + 1.5%)
-    );
-    mask-image: linear-gradient(to right, 
-        rgba(0,0,0,1) 0%, 
-        rgba(0,0,0,1) var(--wipe), 
-        rgba(0,0,0,0) calc(var(--wipe) + 1.5%)
-    );
-    transition: -webkit-mask-image 0.05s linear;
-}
-
-/* 彻底删除亮条，Apple Music 原版并没有这个生硬的扫描条 */
-.lyric-line::after {
-    display: none;
-}
-
-.lyric-sub {
-    position: absolute;
-    bottom: 12vh;
-    left: 8vw;
+.lyric-sub-inline {
     font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
     font-weight: 700;
-    font-size: clamp(1.8rem, 5vw, 3.5rem);
-    color: rgba(255, 255, 255, 0.95);
-    text-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    opacity: 0;
+    font-size: clamp(1.2rem, 3.5vw, 2.5rem);
+    color: rgba(255, 255, 255, 0.85);
+    left: 0 !important;
+    /* 强制靠左 */
+    text-shadow: none;
     transition: opacity 0.5s ease;
 }
 
-.lyric-line.visible {
-    opacity: 1;
+.lyric-scene.exiting {
+    opacity: 0;
+    transform: translateY(-80px) scale(0.95);
+    filter: blur(10px);
 }
 
-/* 确保主容器不会切断发光条 */
-.hero-copy {
+/* 字符独立容器：物理核心 */
+.lyric-char {
+    display: inline-block;
+    position: relative;
+    --char-progress: 0;
+    vertical-align: baseline;
+    will-change: transform;
+
+    /* 恢复原始布局，防止 padding/margin 导致背景字和高亮字坐标系偏移 */
+    padding: 0;
+    margin: 0;
+
+    /* 
+       Apple Music "Overshoot" 曲线：
+    */
+    transform: translateY(calc(var(--char-progress) * -22px)) scale(calc(0.96 + var(--char-progress) * 0.12));
+
+    transition: transform 0.6s cubic-bezier(0.34, 1.65, 0.64, 1);
+}
+
+/* 字符高亮层：纯净无阴影，仅白色发光 */
+.lyric-char::after {
+    content: attr(data-char);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #fff;
+    z-index: 2;
+
+    /* 移除单个字符的 text-shadow，改由父级统一渲染 filter: drop-shadow 以避免重叠干扰 */
+    text-shadow: none;
+
+    /* 
+       由于采用了 inset 为负值来扩展点击/遮罩区，我们需要用 padding 重新将文字对齐回原始位置。
+       inset: -y -x; + padding: y x; 确保文字坐标原点依然是 (0,0)
+    */
+    position: absolute;
+    inset: -0.2em -0.1em;
+    width: auto;
+    height: auto;
+    padding: 0.2em 0.1em;
+    box-sizing: border-box;
+
+    /* 基于扩展后的宽度进行遮罩：从左至右擦除 */
+    -webkit-mask-image: linear-gradient(to right,
+            #000 calc(var(--char-progress) * 110% - 10%),
+            transparent calc(var(--char-progress) * 110% + 5%));
+    mask-image: linear-gradient(to right,
+            #000 calc(var(--char-progress) * 110% - 10%),
+            transparent calc(var(--char-progress) * 110% + 5%));
+
     overflow: visible;
+    white-space: pre;
+    pointer-events: none;
+}
+
+.lyric-sub {
+    display: none;
+    /* 隐藏原有的静态副标题，它现在已经在场景容器内动态生成了 */
 }
 
 .reference-video {
     position: fixed;
     width: 1px;
     height: 1px;
-    inset: auto;
     opacity: 0;
-    pointer-events: none;
-}
-
-@keyframes rise-in {
-    from {
-        opacity: 0;
-        transform: translateY(24px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@media (max-width: 860px) {
-    .navbar {
-        width: min(1200px, 100%);
-        margin-top: 0;
-    }
-
-    .navbar-content {
-        gap: 8px;
-        padding: 0 10px;
-    }
-
-    .navbar-nav {
-        gap: 8px;
-    }
-
-    .nav-link {
-        font-size: 0.82rem;
-        padding: 6px 9px;
-    }
-
-    .hero {
-        padding-top: 84px;
-    }
-
-    .lyric-stage {
-        height: calc(100vh - 84px);
-    }
-
-    .lyric-line {
-        font-size: clamp(1.5rem, 6.7vw, 3.05rem);
-    }
-}
-
-@media (max-width: 560px) {
-    .navbar-content {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .navbar-title {
-        order: 1;
-        width: 100%;
-        text-align: center;
-    }
-
-    .navbar-nav {
-        order: 2;
-        width: 100%;
-        justify-content: center;
-        margin-left: 0;
-    }
-
-    .hero {
-        padding: 92px 12px 0;
-    }
-
-    .lyric-stage {
-        height: calc(100vh - 92px);
-    }
-
-    .lyric-line {
-        font-size: clamp(1.25rem, 8vw, 2.1rem);
-    }
 }
