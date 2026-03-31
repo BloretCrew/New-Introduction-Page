@@ -41,6 +41,20 @@ a {
     font: inherit;
 }
 
+button,
+a,
+input,
+textarea,
+select {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid rgba(255, 179, 106, 0.92);
+    outline-offset: 3px;
+}
+
 .bg-video {
     position: fixed;
     inset: 0;
@@ -92,6 +106,29 @@ a {
     width: 100%;
     transition: transform 1250ms cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-track,
+    .feature-card,
+    .stat-card,
+    .quote-card,
+    .closing-card,
+    .section-copy,
+    .showcase-copy,
+    .hero-meta,
+    .scroll-hint,
+    .lyric-line,
+    .lyric-scene,
+    .lyric-char,
+    .hero-orb-ring,
+    .hero-orb-core,
+    .cta-button,
+    .panel-dot {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+    }
 }
 
 .panel {
@@ -451,6 +488,12 @@ a {
     box-shadow: 0 0 0 8px rgba(255, 179, 106, 0.12);
 }
 
+.panel-dot:hover {
+    transform: scale(1.16);
+    border-color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.24);
+}
+
 .lyric-stage {
     position: relative;
     height: calc(100vh - 160px);
@@ -612,6 +655,12 @@ a {
         padding-top: 120px;
     }
 
+    .navbar-nav {
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
     .panel-inner-hero,
     .two-column-layout,
     .split-layout,
@@ -624,6 +673,11 @@ a {
     .hero-meta {
         justify-self: stretch;
         max-width: none;
+    }
+
+    .hero-orb {
+        width: 148px;
+        height: 148px;
     }
 
     .panel-dots {
@@ -642,13 +696,46 @@ a {
         padding: 0 12px;
     }
 
+    .navbar-content {
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .navbar-title {
+        width: 100%;
+        margin-bottom: 2px;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .navbar-nav::-webkit-scrollbar {
+        display: none;
+    }
+
     .panel {
-        padding: 110px 16px 24px;
+        padding: 132px 16px 24px;
+    }
+
+    .panel-kicker,
+    .meta-label {
+        font-size: 0.78rem;
+        letter-spacing: 0.14em;
     }
 
     .glass-card {
         padding: 22px;
         border-radius: 24px;
+    }
+
+    .hero-orb {
+        width: 124px;
+        height: 124px;
+        margin-top: 20px;
     }
 
     .panel-dots {
@@ -662,5 +749,18 @@ a {
 
     .closing-actions {
         flex-direction: column;
+    }
+
+    .lyric-stage {
+        height: calc(100vh - 360px);
+    }
+
+    .lyric-line {
+        max-width: 92vw;
+        font-size: clamp(2.1rem, 10vw, 3.5rem);
+    }
+
+    .lyric-sub-inline {
+        font-size: clamp(1rem, 4.6vw, 1.5rem);
     }
 }

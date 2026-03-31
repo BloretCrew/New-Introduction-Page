@@ -29,6 +29,7 @@
     let wheelLockUntil = 0;
     let touchStartY = null;
     let accumulatedDelta = 0;
+    let lastNavigationIntentAt = 0;
 
     const measureCanvas = document.createElement("canvas");
     const measureContext = measureCanvas.getContext("2d");
@@ -63,25 +64,29 @@
         scrollTrack.style.transform = `translate3d(0, -${activePanelIndex * 100}vh, 0)`;
 
         panels.forEach((panel, i) => {
-            panel.classList.toggle("active", i === activePanelIndex);
+            const isActive = i === activePanelIndex;
+            panel.classList.toggle("active", isActive);
+            panel.setAttribute("aria-hidden", isActive ? "false" : "true");
         });
 
         navTargets.forEach((item) => {
             const target = Number(item.dataset.target);
             const isActive = target === activePanelIndex;
             item.classList.toggle("active", isActive);
-            if (item.classList.contains("panel-dot")) {
-                item.setAttribute("aria-current", isActive ? "true" : "false");
-            }
+            item.setAttribute("aria-current", isActive ? "true" : "false");
         });
+
+        window.history.replaceState(null, "", `#${panels[activePanelIndex].id}`);
     }
 
     function goToPanel(index) {
         const nextIndex = clamp(index, 0, panels.length - 1);
         if (nextIndex === activePanelIndex || isTransitioning) return;
 
+        lastNavigationIntentAt = Date.now();
         isTransitioning = true;
         wheelLockUntil = Date.now() + 1280;
+        accumulatedDelta = 0;
         updatePanelState(nextIndex);
 
         window.setTimeout(() => {
@@ -106,6 +111,10 @@
     }
 
     function handleTouchStart(event) {
+        if (event.touches.length > 1) {
+            touchStartY = null;
+            return;
+        }
         touchStartY = event.touches[0]?.clientY ?? null;
     }
 
@@ -122,6 +131,10 @@
     }
 
     function handleKeydown(event) {
+        const tag = event.target?.tagName;
+        const isEditable = event.target?.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(tag);
+        if (isEditable) return;
+
         if (["ArrowDown", "PageDown", "Space"].includes(event.key)) {
             event.preventDefault();
             movePanel(1);
@@ -158,6 +171,12 @@
         window.addEventListener("touchend", handleTouchEnd, { passive: true });
         window.addEventListener("keydown", handleKeydown);
         window.addEventListener("resize", () => updatePanelState(activePanelIndex));
+        window.addEventListener("hashchange", () => {
+            const targetIndex = panels.findIndex((panel) => `#${panel.id}` === window.location.hash);
+            if (targetIndex >= 0 && Date.now() - lastNavigationIntentAt > 250) {
+                goToPanel(targetIndex);
+            }
+        });
     }
 
     function resolveLineKeyframes(scene, textProp, kfProp, lineEl) {
@@ -345,8 +364,10 @@
         } finally {
             resolveAllKeyframes();
             activeSceneGroup = null;
-            updatePanelState(0);
             bindNavigation();
+
+            const initialIndex = Math.max(0, panels.findIndex((panel) => `#${panel.id}` === window.location.hash));
+            updatePanelState(initialIndex);
         }
     }
 

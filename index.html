@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product Introduction</title>
+    <title>Bloret Product — Fullpage Introduction</title>
+    <meta name="description" content="A cinematic fullpage introduction experience for Bloret Product with immersive sections, layered motion, and guided navigation." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
@@ -36,7 +37,7 @@
         </div>
     </header>
 
-    <main class="scroll-shell" id="scroll-shell" aria-label="Fullpage presentation">
+    <main class="scroll-shell" id="scroll-shell" aria-label="Fullpage presentation" tabindex="-1">
         <div class="scroll-track" id="scroll-track">
             <section class="panel panel-hero active" id="hero" data-panel="0" aria-label="Hero section">
                 <div class="panel-inner panel-inner-hero">
@@ -63,7 +64,7 @@
                             <span class="hero-orb-core"></span>
                         </div>
                     </div>
-                    <button class="scroll-hint" id="scroll-next" type="button" aria-label="Go to next section">
+                    <button class="scroll-hint" id="scroll-next" type="button" aria-label="Go to next section" title="Go to next section">
                         <span>Scroll to explore</span>
                         <span class="scroll-hint-arrow">↓</span>
                     </button>
@@ -167,11 +168,11 @@
         </div>
 
         <aside class="panel-dots" aria-label="Section progress">
-            <button class="panel-dot active" type="button" data-target="0" aria-label="Go to Hero"></button>
-            <button class="panel-dot" type="button" data-target="1" aria-label="Go to Features"></button>
-            <button class="panel-dot" type="button" data-target="2" aria-label="Go to Experience"></button>
-            <button class="panel-dot" type="button" data-target="3" aria-label="Go to About"></button>
-            <button class="panel-dot" type="button" data-target="4" aria-label="Go to Get Started"></button>
+            <button class="panel-dot active" type="button" data-target="0" aria-label="Go to Hero" aria-current="true" title="Hero"></button>
+            <button class="panel-dot" type="button" data-target="1" aria-label="Go to Features" title="Features"></button>
+            <button class="panel-dot" type="button" data-target="2" aria-label="Go to Experience" title="Experience"></button>
+            <button class="panel-dot" type="button" data-target="3" aria-label="Go to About" title="About"></button>
+            <button class="panel-dot" type="button" data-target="4" aria-label="Go to Get Started" title="Get Started"></button>
         </aside>
     </main>
 
