@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product Introduction</title>
+    <title>Bloret Product — Fullpage Introduction</title>
+    <meta name="description" content="A cinematic fullpage introduction experience for Bloret Product with immersive sections, layered motion, and guided navigation." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="Designs/The-Navbar-Design.css" />
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -20,30 +20,159 @@
     </video>
 
     <div class="video-overlay" aria-hidden="true"></div>
+    <div class="page-noise" aria-hidden="true"></div>
 
     <header class="navbar" aria-label="Main navigation">
         <div class="navbar-content">
             <div class="brand-pill" aria-hidden="true"></div>
             <p class="navbar-title">Bloret Product</p>
-            <nav class="navbar-nav">
-                <a class="nav-link" href="#features">Features</a>
-                <a class="nav-link" href="#pricing">Pricing</a>
-                <a class="nav-link" href="#about">About</a>
-                <a class="nav-link passport" href="#">Get Started</a>
+            <nav class="navbar-nav" id="navbar-nav">
+                <a class="nav-link active" href="#hero" data-target="0">Hero</a>
+                <a class="nav-link" href="#features" data-target="1">Features</a>
+                <a class="nav-link" href="#experience" data-target="2">Experience</a>
+                <a class="nav-link" href="#about" data-target="3">About</a>
+                <a class="nav-link passport" href="#contact" data-target="4">Get Started</a>
             </nav>
         </div>
     </header>
 
-    <main class="hero">
-        <section class="hero-copy" aria-label="Hero section">
-            <div class="lyric-player" aria-label="Karaoke title animation" id="title-player">
-                <div class="lyric-stage" id="lyric-stage">
-                    <p class="lyric-line lyric-line-main" id="lyric-line-1" aria-live="polite"></p>
-                    <p class="lyric-line lyric-line-main" id="lyric-line-2"></p>
-                    <p class="lyric-sub" id="lyric-sub"></p>
+    <main class="scroll-shell" id="scroll-shell" aria-label="Fullpage presentation" tabindex="-1">
+        <div class="scroll-track" id="scroll-track">
+            <section class="panel panel-hero active" id="hero" data-panel="0" aria-label="Hero section">
+                <div class="panel-inner panel-inner-hero">
+                    <div class="panel-kicker">Immersive introduction</div>
+                    <div class="hero-copy">
+                        <div class="lyric-player" aria-label="Karaoke title animation" id="title-player">
+                            <div class="lyric-stage" id="lyric-stage">
+                                <p class="lyric-line lyric-line-main" id="lyric-line-1" aria-live="polite"></p>
+                                <p class="lyric-line lyric-line-main" id="lyric-line-2"></p>
+                                <p class="lyric-sub" id="lyric-sub"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-meta glass-card">
+                        <p class="meta-label">Bloret Vision</p>
+                        <h1>Designed to be experienced screen by screen.</h1>
+                        <p>
+                            A cinematic intro page with full-screen chapters, smooth transitions,
+                            bold typography, and music-video energy.
+                        </p>
+                        <div class="hero-orb" aria-hidden="true">
+                            <span class="hero-orb-ring ring-a"></span>
+                            <span class="hero-orb-ring ring-b"></span>
+                            <span class="hero-orb-core"></span>
+                        </div>
+                    </div>
+                    <button class="scroll-hint" id="scroll-next" type="button" aria-label="Go to next section" title="Go to next section">
+                        <span>Scroll to explore</span>
+                        <span class="scroll-hint-arrow">↓</span>
+                    </button>
                 </div>
-            </div>
-        </section>
+            </section>
+
+            <section class="panel" id="features" data-panel="1" aria-label="Features section">
+                <div class="panel-inner two-column-layout">
+                    <div class="section-copy glass-card reveal-card">
+                        <p class="panel-kicker">Features</p>
+                        <h2>Every section feels like a scene.</h2>
+                        <p>
+                            Full-viewport slides keep attention focused. Navigation and wheel gestures
+                            move between sections with a clear presentation rhythm.
+                        </p>
+                    </div>
+                    <div class="feature-grid">
+                        <article class="feature-card glass-card reveal-card">
+                            <span class="feature-index">01</span>
+                            <h3>Full-screen chapters</h3>
+                            <p>Each section fills the viewport and transitions like a deck or keynote.</p>
+                        </article>
+                        <article class="feature-card glass-card reveal-card">
+                            <span class="feature-index">02</span>
+                            <h3>Smooth snap scroll</h3>
+                            <p>Wheel, touchpad, and nav clicks all move in one consistent motion language.</p>
+                        </article>
+                        <article class="feature-card glass-card reveal-card">
+                            <span class="feature-index">03</span>
+                            <h3>Existing assets reused</h3>
+                            <p>The background video, lyric animation, and current visual tone stay in the build.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel" id="experience" data-panel="2" aria-label="Experience section">
+                <div class="panel-inner showcase-layout">
+                    <div class="showcase-copy glass-card reveal-card">
+                        <p class="panel-kicker">Experience</p>
+                        <h2>Motion with intent, not just decoration.</h2>
+                        <p>
+                            The page now behaves like a guided story: enter, pause, switch, and continue.
+                            It is intentionally paced to feel more premium and more memorable.
+                        </p>
+                    </div>
+                    <div class="showcase-stack">
+                        <div class="stat-card glass-card reveal-card">
+                            <strong>Viewport-first</strong>
+                            <span>100vh sections with clean hierarchy and layered depth.</span>
+                        </div>
+                        <div class="stat-card glass-card reveal-card">
+                            <strong>Input-friendly</strong>
+                            <span>Supports wheel-based switching and direct navigation jumps.</span>
+                        </div>
+                        <div class="stat-card glass-card reveal-card">
+                            <strong>Simple stack</strong>
+                            <span>No heavy framework added, only HTML/CSS/JS reshaping.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel" id="about" data-panel="3" aria-label="About section">
+                <div class="panel-inner split-layout">
+                    <div class="section-copy glass-card reveal-card">
+                        <p class="panel-kicker">About</p>
+                        <h2>Built from the current introduction page, not from scratch.</h2>
+                        <p>
+                            The redesign keeps the existing atmosphere and turns it into a scroll-based
+                            showcase that is easier to present, demo, and polish further.
+                        </p>
+                    </div>
+                    <div class="quote-card glass-card reveal-card">
+                        <p class="quote-mark">“</p>
+                        <p class="quote-text">
+                            A fullpage presentation makes the introduction feel deliberate — like the page
+                            knows what to show you next.
+                        </p>
+                        <p class="quote-author">Bloret Crew / Introduction Concept</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel" id="contact" data-panel="4" aria-label="Get started section">
+                <div class="panel-inner closing-layout">
+                    <div class="closing-card glass-card reveal-card">
+                        <p class="panel-kicker">Get Started</p>
+                        <h2>Ready to ship the scrolling version.</h2>
+                        <p>
+                            Keep refining the copy, swap in final product text, and this structure is ready
+                            to become a polished launch-style intro page.
+                        </p>
+                        <div class="closing-actions">
+                            <a class="cta-button primary" href="#hero" data-target="0">Back to Top</a>
+                            <a class="cta-button secondary" href="#features" data-target="1">Review Features</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <aside class="panel-dots" aria-label="Section progress">
+            <button class="panel-dot active" type="button" data-target="0" aria-label="Go to Hero" aria-current="true" title="Hero"></button>
+            <button class="panel-dot" type="button" data-target="1" aria-label="Go to Features" title="Features"></button>
+            <button class="panel-dot" type="button" data-target="2" aria-label="Go to Experience" title="Experience"></button>
+            <button class="panel-dot" type="button" data-target="3" aria-label="Go to About" title="About"></button>
+            <button class="panel-dot" type="button" data-target="4" aria-label="Go to Get Started" title="Get Started"></button>
+        </aside>
     </main>
 
     <script src="script.js"></script>
