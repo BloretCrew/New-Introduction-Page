@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="Designs/The-Navbar-Design.css" />
     <link rel="stylesheet" href="styles.css" />
+    <!-- YAML 解析库 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
 <body>
     <video class="bg-video" autoplay muted loop playsinline>
@@ -21,11 +23,13 @@
 
     <div class="video-overlay" aria-hidden="true"></div>
 
+    <!-- 固定顶栏 -->
     <header class="navbar" aria-label="Main navigation">
         <div class="navbar-content">
             <div class="brand-pill" aria-hidden="true"></div>
             <p class="navbar-title">Bloret Product</p>
             <nav class="navbar-nav">
+                <a class="nav-link" href="#hero">Home</a>
                 <a class="nav-link" href="#features">Features</a>
                 <a class="nav-link" href="#pricing">Pricing</a>
                 <a class="nav-link" href="#about">About</a>
@@ -34,17 +38,184 @@
         </div>
     </header>
 
-    <main class="hero">
-        <section class="hero-copy" aria-label="Hero section">
-            <div class="lyric-player" aria-label="Karaoke title animation" id="title-player">
-                <div class="lyric-stage" id="lyric-stage">
-                    <p class="lyric-line lyric-line-main" id="lyric-line-1" aria-live="polite"></p>
-                    <p class="lyric-line lyric-line-main" id="lyric-line-2"></p>
-                    <p class="lyric-sub" id="lyric-sub"></p>
+    <!-- 分页导航指示器 -->
+    <nav class="pagination-nav" aria-label="Page navigation">
+        <div class="pagination-dots">
+            <button class="pagination-dot active" data-page="0" aria-label="Go to page 1"></button>
+            <button class="pagination-dot" data-page="1" aria-label="Go to page 2"></button>
+            <button class="pagination-dot" data-page="2" aria-label="Go to page 3"></button>
+            <button class="pagination-dot" data-page="3" aria-label="Go to page 4"></button>
+        </div>
+    </nav>
+
+    <!-- 分页容器 -->
+    <div class="pages-container" id="pages-container">
+        <!-- 第一页：Hero 标题 -->
+        <section class="page page-1 active" data-page="0">
+
+            <main class="hero">
+                <div class="hero-copy" aria-label="Hero section">
+                    <div class="lyric-player" aria-label="Karaoke title animation" id="title-player">
+                        <div class="lyric-stage" id="lyric-stage">
+                            <p class="lyric-line lyric-line-main" id="lyric-line-1" aria-live="polite"></p>
+                            <p class="lyric-line lyric-line-main" id="lyric-line-2"></p>
+                            <p class="lyric-sub" id="lyric-sub"></p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- <div class="scroll-hint">
+                <span class="scroll-hint-text">向下滚动</span>
+                <div class="scroll-hint-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M19 12l-7 7-7-7"/>
+                    </svg>
+                </div>
+            </div> -->
+        </section>
+
+        <!-- 第二页：核心服务 - Minecraft 服务器 -->
+        <section class="page page-2" data-page="1">
+            <div class="page-content">
+                <h2 class="page-title">Minecraft Server</h2>
+                <p class="page-subtitle">我们的核心服务</p>
+                
+                <!-- 服务器信息展示 -->
+                <div class="server-showcase">
+                    <div class="server-ip-box">
+                        <span class="server-ip-label">服务器地址</span>
+                        <div class="server-ip-value">
+                            <span id="server-ip">bloret.net</span>
+                            <button class="copy-btn" onclick="copyIP()" title="复制地址">复制</button>
+                        </div>
+                    </div>
+                    <p class="server-description">加入我们的 Minecraft 服务器，体验精彩的游戏世界</p>
+                    
+                    <!-- Launcher 推荐区域 -->
+                    <div class="launcher-recommend">
+                        <a href="https://launcher.bloret.net" class="launcher-btn" target="_blank" rel="noopener">
+                            <span class="launcher-icon">🚀</span>
+                            <span class="launcher-text">推荐使用 Bloret Launcher 加入</span>
+                        </a>
+                        <p class="launcher-hint">您可以使用任意 Minecraft 启动器加入 Bloret，我们推荐使用 Bloret Launcher，它为 Bloret 的游玩提供了优化。</p>
+                    </div>
+                </div>
+
+                <!-- 服务器特色 -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎮</div>
+                        <h3 class="feature-title">纯净生存</h3>
+                        <p class="feature-desc">原汁原味的 Minecraft 生存体验</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏰</div>
+                        <h3 class="feature-title">建筑展示</h3>
+                        <p class="feature-desc">欣赏玩家们的精美建筑作品</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <h3 class="feature-title">活跃社区</h3>
+                        <p class="feature-desc">友好的玩家社区，随时欢迎新朋友</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔧</div>
+                        <h3 class="feature-title">稳定运行</h3>
+                        <p class="feature-desc">专业技术团队保障服务器稳定</p>
+                    </div>
                 </div>
             </div>
         </section>
-    </main>
+
+        <!-- 第三页：更多服务 -->
+        <section class="page page-3" data-page="2">
+            <div class="page-content">
+                <h2 class="page-title">更多服务</h2>
+                <p class="page-subtitle">百络谷为您提供多元化的服务</p>
+                <div class="services-grid">
+                    <a class="service-card" href="https://launcher.bloret.net" target="_blank" data-color="#FF6B6B">
+                        <span class="service-icon">🚀</span>
+                        <div class="service-info">
+                            <h3 class="service-name">Bloret Launcher</h3>
+                            <p class="service-desc">专属启动器，一键启动游戏</p>
+                        </div>
+                    </a>
+                    <a class="service-card" href="https://chafu.wang" target="_blank" data-color="#4ECDC4">
+                        <span class="service-icon">🌐</span>
+                        <div class="service-info">
+                            <h3 class="service-name">ChaFuWang</h3>
+                            <p class="service-desc">查服网，便捷的服务器查询平台</p>
+                        </div>
+                    </a>
+                    <a class="service-card" href="https://bbs.bloret.net" target="_blank" data-color="#45B7D1">
+                        <span class="service-icon">💬</span>
+                        <div class="service-info">
+                            <h3 class="service-name">Bloret BBS</h3>
+                            <p class="service-desc">百络谷官方论坛，交流分享社区</p>
+                        </div>
+                    </a>
+                    <a class="service-card" href="https://passport.bloret.net" target="_blank" data-color="#96CEB4">
+                        <span class="service-icon">🔐</span>
+                        <div class="service-info">
+                            <h3 class="service-name">Bloret Passport</h3>
+                            <p class="service-desc">统一账号系统，安全便捷登录</p>
+                        </div>
+                    </a>
+                    <a class="service-card" href="https://img.bloret.net" target="_blank" data-color="#FFEAA7">
+                        <span class="service-icon">🖼️</span>
+                        <div class="service-info">
+                            <h3 class="service-name">Bloret Image Host</h3>
+                            <p class="service-desc">图床服务，快速分享你的图片</p>
+                        </div>
+                    </a>
+                    <a class="service-card" href="https://wiki.bloret.net" target="_blank" data-color="#DDA0DD">
+                        <span class="service-icon">📚</span>
+                        <div class="service-info">
+                            <h3 class="service-name">Bloret Wiki</h3>
+                            <p class="service-desc">知识库，查阅各类教程与资料</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第四页：关于我们 -->
+        <section class="page page-4" data-page="3">
+            <div class="page-content">
+                <h2 class="page-title">关于我们</h2>
+                <p class="page-subtitle">了解更多关于百络谷</p>
+                <div class="about-content">
+                    <p class="about-text">
+                        Bloret·百络谷是一个专注于 Minecraft 的组织<br>
+                        我们致力于为玩家提供优质的游戏体验和多元化服务<br>
+                        从 2021 年起，我们一直在成长与进步
+                    </p>
+                    
+                    <!-- 数据统计 -->
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-value">10,000+</span>
+                            <span class="stat-label">注册玩家</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">100+</span>
+                            <span class="stat-label">日均在线</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">7+</span>
+                            <span class="stat-label">服务项目</span>
+                        </div>
+                    </div>
+
+                    <div class="cta-section">
+                        <button class="cta-button primary" onclick="location.href='#core'">加入服务器</button>
+                        <button class="cta-button secondary" onclick="window.open('https://bbs.bloret.net')">访问论坛</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <script src="script.js"></script>
 </body>

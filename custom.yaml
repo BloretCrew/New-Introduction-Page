@@ -1,0 +1,149 @@
+# ===========================================
+#   Bloret・百络谷 网站自定义配置文件
+# ===========================================
+
+# 网站基本信息
+site:
+  title: "Bloret・百络谷 - 专注于 Minecraft 的组织"
+  description: "一个专注于 Minecraft 的组织，提供服务器、启动器、论坛等多项服务"
+  favicon: "bloret.png"
+
+# 顶部导航栏
+navbar:
+  brand: "Bloret・百络谷"
+  links:
+    - label: "首页"
+      href: "#hero"
+      page: 0
+    - label: "核心服务"
+      href: "#core"
+      page: 1
+    - label: "更多服务"
+      href: "#services"
+      page: 2
+    - label: "关于我们"
+      href: "#about"
+      page: 3
+  ctaButton:
+    label: "立即加入"
+    href: "#core"
+
+# 首页 Hero 区域
+hero:
+  # 标题动画列表（循环播放）
+  titles:
+    - main: "Bloret·百络谷"
+      sub: "一个专注于 Minecraft 的组织"
+    - main: "Welcome to Bloret"
+      sub: "百络谷欢迎你的到来"
+    - main: "探索无限可能"
+      sub: "与我们一起创造精彩"
+    - main: "Bloret Minecraft Server"
+      sub: "IP: bloret.net"
+  # 滚动提示文字
+  scrollHint: "向下滚动探索"
+
+# 核心服务页 - Minecraft 服务器
+core:
+  title: "Minecraft Server"
+  subtitle: "我们的核心服务"
+  server:
+    name: "Bloret Minecraft Server"
+    ip: "bloret.net"
+    description: "加入我们的 Minecraft 服务器，体验精彩的游戏世界"
+    launcher:
+      name: "Bloret Launcher"
+      url: "https://launcher.bloret.net"
+      hint: "您可以使用任意 Minecraft 启动器加入 Bloret，我们推荐使用 Bloret Launcher，它为 Bloret 的游玩提供了优化。"
+    features:
+      - icon: "🎮"
+        title: "纯净生存"
+        description: "原汁原味的 Minecraft 生存体验"
+      - icon: "🏰"
+        title: "建筑展示"
+        description: "欣赏玩家们的精美建筑作品"
+      - icon: "👥"
+        title: "活跃社区"
+        description: "友好的玩家社区，随时欢迎新朋友"
+      - icon: "🔧"
+        title: "稳定运行"
+        description: "专业技术团队保障服务器稳定"
+
+# 更多服务页
+services:
+  title: "更多服务"
+  subtitle: "百络谷为您提供多元化的服务"
+  items:
+    - name: "Bloret Launcher"
+      url: "https://launcher.bloret.net"
+      icon: "🚀"
+      description: "专属启动器，一键启动游戏"
+      color: "#FF6B6B"
+    - name: "ChaFuWang"
+      url: "https://chafu.wang"
+      icon: "🌐"
+      description: "查服网，便捷的服务器查询平台"
+      color: "#4ECDC4"
+    - name: "Bloret BBS"
+      url: "https://bbs.bloret.net"
+      icon: "💬"
+      description: "百络谷官方论坛，交流分享社区"
+      color: "#45B7D1"
+    - name: "Bloret Passport"
+      url: "https://passport.bloret.net"
+      icon: "🔐"
+      description: "统一账号系统，安全便捷登录"
+      color: "#96CEB4"
+    - name: "Bloret Image Host"
+      url: "https://img.bloret.net"
+      icon: "🖼️"
+      description: "图床服务，快速分享你的图片"
+      color: "#FFEAA7"
+    - name: "Bloret Wiki"
+      url: "https://wiki.bloret.net"
+      icon: "📚"
+      description: "知识库，查阅各类教程与资料"
+      color: "#DDA0DD"
+
+# 关于我们页
+about:
+  title: "关于我们"
+  subtitle: "了解更多关于百络谷"
+  content:
+    - "Bloret·百络谷是一个专注于 Minecraft 的组织"
+    - "我们致力于为玩家提供优质的游戏体验和多元化服务"
+    - "从 2021 年起，我们一直在成长与进步"
+  stats:
+    - label: "注册玩家"
+      value: "10,000+"
+    - label: "日均在线"
+      value: "100+"
+    - label: "服务项目"
+      value: "7+"
+  ctaButtons:
+    - label: "加入服务器"
+      type: "primary"
+      href: "#core"
+    - label: "访问论坛"
+      type: "secondary"
+      href: "https://bbs.bloret.net"
+
+# 页脚
+footer:
+  copyright: "© 2026 Bloret·百络谷. All rights reserved."
+  links:
+    - label: "论坛"
+      href: "https://bbs.bloret.net"
+    - label: "Wiki"
+      href: "https://wiki.bloret.net"
+    - label: "联系我们"
+      href: "#"
+
+# 分页配置
+pagination:
+  totalPages: 4
+  labels:
+    - "首页"
+    - "核心服务"
+    - "更多服务"
+    - "关于我们"
